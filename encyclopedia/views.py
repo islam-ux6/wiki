@@ -1,5 +1,6 @@
 from django.shortcuts import render
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
+from django.urls import reverse
 import markdown2
 
 from . import util
@@ -19,3 +20,8 @@ def show_ent(request, title):
             })
     else:
         return HttpResponse("File Not Found")
+    
+def search(request):
+    q = request.POST["q"]
+
+    return HttpResponseRedirect(reverse("show_ent", args=[q]))
