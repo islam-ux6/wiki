@@ -16,7 +16,8 @@ def show_ent(request, title):
     if md_file:
         html = markdown2.markdown(md_file)
         return render(request, "encyclopedia/show_entry.html", {
-            "html": html
+            "html": html,
+            "title": title
             })
     else:
         return HttpResponse("File Not Found")
@@ -45,3 +46,6 @@ def create(request):
             return HttpResponseRedirect(reverse("show_ent", args=[title]))
     else:
         return render(request, "encyclopedia/create.html")
+    
+def edit(request):
+    return HttpResponse("foo")
