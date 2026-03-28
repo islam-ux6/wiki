@@ -23,5 +23,19 @@ def show_ent(request, title):
     
 def search(request):
     q = request.POST["q"]
+    entries = util.list_entries()
 
-    return HttpResponseRedirect(reverse("show_ent", args=[q]))
+    if q in entries:
+        return HttpResponseRedirect(reverse("show_ent", args=[q]))
+    else:
+        entries_sub = [entry for entry in entries if q.lower() in entry.lower()]
+
+        return render(request, "encyclopedia/search.html", {
+            "entries": entries_sub
+        })
+
+def create(request):
+    if request.method == "POST":
+        util.save_entry(request.POST["label"], request.POST["page_content"])
+        return HttpResponseRedirect(reverse("index"))
+    return render(request, "encyclopedia/create.html")
